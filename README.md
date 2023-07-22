@@ -18,13 +18,13 @@ A WIP ssh connection selector
  - whiptail 
  - sshpass 
 2. Download sshcon
-   ``` sudo wget https://raw.githubusercontent.com/Pegoku/sshConnect/main/sshcon -O /usr/bin/sshcon ```
+   ```sudo wget https://raw.githubusercontent.com/Pegoku/sshConnect/main/sshcon -O /usr/bin/sshcon ```
 3. Make the file executable
-``` sudo chmod +x /usr/bin/sshcon ```
+```sudo chmod +x /usr/bin/sshcon ```
 4. Create the sshcon user and set a custom shell
-``` sudo useradd --shell /usr/bin/sshcon sshcon```
+```sudo useradd --shell /usr/bin/sshcon sshcon```
 5. Copy systemctl sshd config
-``` sudo cp /etc/systemd/system/sshd.service /etc/systemd/system/sshd-sshcon.service ```
+```sudo cp /etc/systemd/system/sshd.service /etc/systemd/system/sshd-sshcon.service ```
 6. Copy sshd-config file
 ```sudo cp /etc/ssh/sshd{,-sshcon}_config```
 7. Add this lines to ssh-sshcon_config
@@ -58,3 +58,8 @@ TO: Alias=sshd-sshcon.service
 ``` docker build -t <image_name> . ```
 1. Run the image
 ``` docker run -d -p 24:24 <image_name> ```
+
+## Planned features
+- [ ] Configuration of servers using a config file
+- [ ] Easier installation
+- [ ] Multiple users with per-user options
