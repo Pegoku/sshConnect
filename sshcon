@@ -52,15 +52,15 @@ if [ $exitstatus = 0 ]; then
     if [ $SERVER = 1 ]; then
         USER=admin #Customize here
         PASSWORD=$(whiptail --title "Enter password for Server1 192.168.123 admin" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
-        sshpass -p $PASSWORD ssh $USER@localhost #set to localhost for testing
+        sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@localhost #set to localhost for testing
     elif [ $SERVER = 2 ]; then
         USER=$(whiptail --title "Enter username for Server2 192.168.115" --inputbox "Enter your username and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
         PASSWORD=$(whiptail --title "Enter password for Server2 192.168.115 $USER" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
-        sshpass -p $PASSWORD ssh $USER@localhost #set to localhost for testing
+        sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@localhost #set to localhost for testing
     elif [ $SERVER = 3 ]; then
         USER=user #Customize here
         PASSWORD=$(whiptail --title "Enter password for Server3 192.168.200 $USER" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
-        sshpass -p $PASSWORD ssh $USER@192.168.200 #set to localhost for testing
+        sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@192.168.200 #set to localhost for testing
     fi
 else
     echo "You chose Cancel."

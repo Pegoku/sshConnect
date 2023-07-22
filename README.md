@@ -57,4 +57,4 @@ TO: Alias=sshd-sshcon.service
 3. Build the docker image
 ``` docker build -t <image_name> . ```
 1. Run the image
-``` docker run -p 24:24 <image_name> ```
+``` docker run -d -p 24:24 <image_name> ```
