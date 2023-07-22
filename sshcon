@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# ConfigFile=~/.ssh/connector.conf
+# options=$(for i in $(seq 1 $(sed -n '$=' $ConfigFile)); do
+#     echo "$i '$(sed -n "$i"p $ConfigFile)'"
+# done)
+
+# if [ -f $ConfigFile ]; then
+#     # Check if the config file is empty
+#     if [ -s $ConfigFile ]; then
+#         echo "Config file found at $ConfigFile"
+#         # Read config file
+#         fileLines=$(sed -n '$=' $ConfigFile)
+#         for i in $(seq 1 $fileLines); do
+#             echo "$i '$(sed -n "$i"p $ConfigFile)'"
+#             line[$i]=$(sed -n "$i"p $ConfigFile)
+#             SERVERNAME[$i]=$(echo ${line[$i]} | awk '{print $1}')
+#             SERVERIP[$i]=$(echo ${line[$i]} | awk '{print $2}')
+#             SERVERUSER[$i]=$(echo ${line[$i]} | awk '{print $3}')
+#         done
+#     else
+#         echo "Config file found at $ConfigFile but it is empty"
+#         echo "Creating config file at $ConfigFile"
+#         mkdir -p ~/.ssh
+#         cp ./connector.conf.template $ConfigFile
+#         echo "Edit the config file at $ConfigFile" 
+#     fi
+# else
+#     # No config file found
+#     echo "No config file found at $ConfigFile"
+#     echo "Creating config file at $ConfigFile"
+#     mkdir -p ~/.ssh
+#     cp ./connector.conf.template $ConfigFile
+#     echo "Edit the config file at $ConfigFile" 
+# fi
+
+# Testing Code ^^^
+
+get_term_size() {
+    shopt -s checkwinsize; (:;:)
+}
+get_term_size
+
+SERVER=$(whiptail --title "Test window" --menu "Server to connect" $(echo "$LINES-5" |bc) $(echo "$COLUMNS-10" |bc) $(echo "$LINES-15" |bc) \
+  "1" "Server1 192.168.1.123 admin" \
+  "2" "Server2 192.168.1.156" \
+  "3" "Server3 192.168.1.200 user" \
+  3>&1 1>&2 2>&3) #Customize here
+
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    if [ $SERVER = 1 ]; then
+        USER=admin #Customize here
+        PASSWORD=$(whiptail --title "Enter password for Server1 192.168.123 admin" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
+        sshpass -p $PASSWORD ssh $USER@localhost #set to localhost for testing
+    elif [ $SERVER = 2 ]; then
+        USER=$(whiptail --title "Enter username for Server2 192.168.115" --inputbox "Enter your username and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
+        PASSWORD=$(whiptail --title "Enter password for Server2 192.168.115 $USER" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
+        sshpass -p $PASSWORD ssh $USER@localhost #set to localhost for testing
+    elif [ $SERVER = 3 ]; then
+        USER=user #Customize here
+        PASSWORD=$(whiptail --title "Enter password for Server3 192.168.200 $USER" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
+        sshpass -p $PASSWORD ssh $USER@192.168.200 #set to localhost for testing
+    fi
+else
+    echo "You chose Cancel."
+fi
